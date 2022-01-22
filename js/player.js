@@ -1,4 +1,4 @@
-class Rat {
+class Player {
   constructor(ctx, gameW, gameH, keys) {
     this.ctx = ctx;
     this.gameSize.h = gameH;
