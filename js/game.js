@@ -9,7 +9,7 @@ appName: 'The IronRat Journey app',
     FPS: 60,
     framesCounter: 0,
     background: undefined,
-    rat: undefined,
+    player: undefined,
     enemies: [], // crear un array por cada tipo de enemigo o un único array?
     goals: [], // idem
     prizes:[], // idem
@@ -67,7 +67,7 @@ appName: 'The IronRat Journey app',
 
     reset() {
         this.background = new Background(this.ctx, this.gameSize.w, this.gameSize.h, '#') // aqui va el enlace de una imagen
-        this.rat = new Rat(this.ctx, this.gameSize.w, this.gameSize.h, this.keys) 
+        this.player = new Player (this.ctx, this.gameSize.w, this.gameSize.h, this.keys) 
         this.enemies = [], 
         this.prizes = [], 
         this.goals = []
@@ -76,7 +76,7 @@ appName: 'The IronRat Journey app',
 
     drawAll() {
         this.background.draw()
-        this.rat.draw(this.framesCounter)
+        this.player.draw(this.framesCounter)
         this.enemies.forEach(element => element.draw())
         this.prizes.forEach(element => element.draw())
         this.goals.forEach(element => element.draw())
