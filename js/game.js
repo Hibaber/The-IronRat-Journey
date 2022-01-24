@@ -1,9 +1,10 @@
-const game = {
-appName: 'The IronRat Journey app',
-    author: 'Ernesto Espinoza & Hiba Berber',
-    version: '1.0.0',
+const Game = {
+    appName: "The IronRat Journey app",
+    author: "Ernesto Espinoza & Hiba Berber",
+    version: "1.0.0",
     license: undefined,
-    gameSize: { w: undefined, h: undefined },
+    gameSizeW: undefined,
+    gameSizeH: undefined,
     ctx: undefined,
     canvas: undefined,
     FPS: 60,
@@ -12,104 +13,88 @@ appName: 'The IronRat Journey app',
     player: undefined,
     enemies: [], // crear un array por cada tipo de enemigo o un único array?
     goals: [], // idem
-    prizes:[], // idem
+    prizes: [], // idem
     keys: {
-        // TOP: , // añadir número
-        // SPACE: , // añadir número
+    TOP: ArrowUp,
+    SPACE: 32
     },
 
-
-    init() {
-        this.canvas = document.getElementById('canvas')
-        this.ctx =  this.canvas.getContext('2d')
-        this.setDimensions()
-        this.setEventListeners()
-        this.start()
-    },
- 
-    setDimensions(){
-        this.gameSize.w = window.innerWidth,
-        this.gameSize.h = window.innerHeight
-        this.canvas.setAttribute('width', this.gameSize.w)
-        this.canvas.setAttribute('width', this.gameSize.h)
+init() {
+    this.canvas = document.getElementById("canvas");
+    this.ctx = this.canvas.getContext("2d");
+    this.setDimensions();
+    this.start();
+    this.all();
     },
 
-    setEventListeners() {
-        document.addEventListener('keydown', e => {
-            // switch (e.key) {
-            //     case this.keys.TOP:
-            //         ...
-            // }
-        })
+setDimensions() {
+    this.gameSizeW = window.innerWidth;
+    this.gameSizeH = window.innerHeight;
+    this.canvas.setAttribute("width", this.gameSizeW);
+    this.canvas.setAttribute("height", this.gameSizeH);
     },
 
-    start() {
+start() {
+    this.reset();
 
-        this.reset()
-        // this.interval = setInterval(()=>{
+    this.interval = setInterval(() => {
+    this.framecounter > 5000 ? (this.framesCounter = 0) : this.framesCounter++;
 
-        //     this.framecounter > 5000 ? this.framesCounter = 0: this.framesCounter++
+      // this.createEnemies()
 
-        //     // this.createEnemies()
+      // this.createPrizes()
 
-        //     // this.createPrizes()
+      // this.createGoals()
 
-        //     // this.createGoals()
+      // this.clearEnemies()
 
-        //     // this.clearEnemies()
+      // this.isColission() ? this.gameOver() : null
 
-        //     // this.isColission() ? this.gameOver() : null
+        this.clearAll();
 
-        //     this.clearAll()
-        //     this.drawAll()
-        // }, 1000 / this.FPS)
+        this.drawAll();
+    }, 1000 / this.FPS);
     },
 
-    reset() {
-        this.background = new Background(this.ctx, this.gameSize.w, this.gameSize.h, '#') // aqui va el enlace de una imagen
-        this.player = new Player (this.ctx, this.gameSize.w, this.gameSize.h, this.keys) 
-        this.enemies = [], 
-        this.prizes = [], 
-        this.goals = []
-        
+reset() {
+    this.enemies = [],
+    this.prizes = [],
+    this.goals = [];
     },
 
-    drawAll() {
-        this.background.draw()
-        this.player.draw(this.framesCounter)
-        this.enemies.forEach(element => element.draw())
-        this.prizes.forEach(element => element.draw())
-        this.goals.forEach(element => element.draw())
-        
+all() {
+    this.background = new Background(this.ctx, this.gameSizeW, this.gameSizeH, "img/bg.png");
+    this.player = new Player(this.ctx, this.gameSizeW, this.gameSizeH, this.keys);
+    this.bullets = new Bullets(ctx, playerPosX, playerPosY, playerBasePos, playerSizeW, playerSizeH)
     },
 
-    clearAll() {
-        this.ctx.clearRect(0, 0, this.gameSize.w, this.gameSize.h)
+drawAll() {
+    //this.background.draw();
+    this.player.draw()
+    // this.framesCounter)
+    // this.enemies.forEach(element => element.draw())
+    // this.prizes.forEach(element => element.draw())
+    // this.goals.forEach(element => element.draw())
+
+},
+
+clearAll() {
+    this.ctx.clearRect(0, 0, this.gameSizeW, this.gameSizeH);
     },
 
-    createEnemies() {
-        // if (this.framesCounter % 90 === 0){
-        //     this.enemies.push(new Enemies(this.ctx, this.gameSize.w, this...))
-        // }
-    }
+createEnemies() {
+    // if (this.framesCounter % 90 === 0){
+    //     this.enemies.push(new Enemies(this.ctx, this.gameSize.w, this...))
+    // }
+    },
 
-// clearEnemies
+  // clearEnemies
 
-// isColission (tenemos dos colisiones)
+  // isColission (tenemos dos colisiones)
 
-// gameOver
-
-    
-
+  // gameOver
+};
 
 
-
-    
-
- 
-
-
-
-
-
-}
+// por qué sacar las instancias del background y de player del reset y meterlos en all y después dentro de init
+// por qué no se nos salta el triángulo? tenemos que llamar a jump en algun sitio?

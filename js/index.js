@@ -1,1 +1,1 @@
-window.onload = () => game.init()
+window.onload = () => Game.init()
