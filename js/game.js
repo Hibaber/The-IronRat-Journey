@@ -1,4 +1,4 @@
-const Game = {
+const game = {
     appName: "The IronRat Journey app",
     author: "Ernesto Espinoza & Hiba Berber",
     version: "1.0.0",
@@ -15,8 +15,10 @@ const Game = {
     goals: [], // idem
     prizes: [], // idem
     keys: {
-    TOP: ArrowUp,
-    SPACE: 32
+        TOP: 38,
+        RIGHT:39,
+        LEFT:37,
+        SPACE: 32,
     },
 
 init() {
@@ -24,7 +26,6 @@ init() {
     this.ctx = this.canvas.getContext("2d");
     this.setDimensions();
     this.start();
-    this.all();
     },
 
 setDimensions() {
@@ -36,7 +37,6 @@ setDimensions() {
 
 start() {
     this.reset();
-
     this.interval = setInterval(() => {
     this.framecounter > 5000 ? (this.framesCounter = 0) : this.framesCounter++;
 
@@ -51,7 +51,6 @@ start() {
       // this.isColission() ? this.gameOver() : null
 
         this.clearAll();
-
         this.drawAll();
     }, 1000 / this.FPS);
     },
@@ -60,18 +59,19 @@ reset() {
     this.enemies = [],
     this.prizes = [],
     this.goals = [];
+    this.allInstances()
     },
 
-all() {
-    this.background = new Background(this.ctx, this.gameSizeW, this.gameSizeH, "img/bg.png");
+allInstances() {
+    this.background = new Background(this.ctx, this.gameSizeW, this.gameSizeH, "bg.png");
     this.player = new Player(this.ctx, this.gameSizeW, this.gameSizeH, this.keys);
-    this.bullets = new Bullets(ctx, playerPosX, playerPosY, playerBasePos, playerSizeW, playerSizeH)
+    this.bullets = new Bullets(this.ctx, this.playerPosX, this.playerPosY, this.bullBasePos, this.playerSizeW, this.playerSizeH)
     },
 
 drawAll() {
-    //this.background.draw();
+    this.background.draw();
     this.player.draw()
-    // this.framesCounter)
+    // this.framesCounter
     // this.enemies.forEach(element => element.draw())
     // this.prizes.forEach(element => element.draw())
     // this.goals.forEach(element => element.draw())

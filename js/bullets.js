@@ -8,7 +8,7 @@ class Bullets {
     this.playerBasePos = playerBasePos;
     this.playerSizeH = playerSizeH;
 
-    this.bullVelX = 10;
+    this.bullVelX = 30; // añadir más velocidad 
     this.bullVelY = 1;
 
     this.gravity = 1;
@@ -16,22 +16,25 @@ class Bullets {
 
   draw() {
     this.ctx.beginPath();
-    this.ctx.fillStyle = "red";
     this.ctx.moveTo(this.playerPosX, this.playerPosY);
-    this.ctx.lineTo(this.playerPosY, playerPosY + 100)
+    this.ctx.lineTo(this.playerPosX+50, this.playerPosY)
     this.ctx.stroke()
     this.ctx.closePath();
+    this.ctx.lineWidth= 7;
+    this.ctx.strokeStyle = "red";
+    //this.ctx.fill()
     this.move();
   }
 
+
   move() {
     this.playerPosX += this.bullVelX;
-    this.playerPosY += this.bullVelY;
+    // this.playerPosY += this.bullVelY;
 
-    this.bullVelY += this.gravity;
+    // this.bullVelY += this.gravity;
 
-    if (this.playerPosY >= this.playerBasePos + this.playerSizeH) {
-      this.bullVelY *= -1;
-    }
+    // if (this.playerPosY >= this.playerBasePos + this.playerSizeH) {
+    //   this.bullVelY *= -1;
+    //}
   }
 }

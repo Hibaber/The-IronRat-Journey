@@ -17,6 +17,7 @@ class Player {
     this.playerBasePos = this.playerPosY;
 
     this.playerVelY = 1;
+    this.playerVelX = 10;
     this.playerGravity = 0.5;
 
     this.keys = keys;
@@ -36,7 +37,10 @@ class Player {
       this.playerSizeW,
       this.playerSizeH
     )
+    // animate(framesCounter)
     this.move()
+    this.bullets.forEach(bullet=> bullet.draw())
+    this.clearBullets()
 
   }
 
@@ -45,6 +49,7 @@ class Player {
     if (this.playerPosY < this.playerBasePos) {
         this.playerPosY += this.playerVelY;
         this.playerVelY += this.playerGravity;
+        this.playerVelX += this.playerVelX
     } else {
       this.playerPosY = this.playerBasePos;
       this.playerVelY = 1;
@@ -53,28 +58,53 @@ class Player {
 
   setEventListeners() {
     document.addEventListener("keydown", (e) => {
+      debugger
       switch (e.keyCode) {
-        case this.keys.ArrowUp:
+        case this.keys.TOP:
           if (this.playerPosY >= this.playerBasePos) {
             this.jump();
           }
+          break;
+        case this.keys.RIGHT:
+          if (this.playerPosX)
+          this.moveRight()
+          break;
+        case this.keys.LEFT:
+          if (this.playerPosX)
+          this.moveLeft()
+          console.log(this.keys.LEFT)
           break;
         case this.keys.SPACE:
           this.shoot();
           break;
       }
     });
-    console.log(this.keys.TOP);
+
   }
 
   jump() {
-    this.playerPosY -= 40;
-    this.playerVelY -= 8;
+    this.playerPosY -= 80;
+    this.playerVelY -= 15;
+  }
+  moveRight (){
+    this.playerPosX += 10
+  }
+  moveLeft (){
+    this.playerPosX -= 10
   }
 
-    shoot() {
-    this.bullets.push(new Bullets(this.ctx, this.playerPosX, this.playerPosY, this.playerBasePos, this.playerSizeW, this.playerSizeH));
+  shoot() {
+    this.bullets.push(new Bullets(
+      this.ctx,
+      this.playerPosX,
+      this.playerPosY,
+      this.playerBasePos,
+      this.playerSizeW,
+      this.playerSizeH
+        )
+      )
   }
+
 
   clearBullets() {
     this.bullets = this.bullets.filter(bull => bull.playerPosX <= this.gameSizeW)
