@@ -95,6 +95,7 @@ const game = {
     if (this.framesCounter % 90 === 0) {
       this.enemies.push(new Enemy(this.ctx, this.gameSizeW, this.gameSizeH));
     }
+    // (this.ctx, this.width, this.player.posY0, this.player.height)
   },
 
   clearEnemies() {
@@ -102,13 +103,13 @@ const game = {
   },
 
   isCollision() {
-    return this.enemies.some((enem) => {
+    return this.enemies.some(enem => {
       return (
-        this.playerPosX + this.playerSizeW >= enem.enemyPosX &&
-        this.playerPosY + this.playerSizeH >= enem.enemyPosY &&
-        this.playerPosX <= enem.enemyPosX + enem.enemyWidth
-      );
-    });
+        this.player.playerPosX + this.player.playerSizeW >= enem.enemyPosX &&
+        this.player.playerPosY + this.player.playerSizeH >= enem.enemyPosY &&
+        this.player.playerPosX <= enem.enemyPosX + enem.enemyWidth
+      )
+    })
   },
 
   gameOver() {

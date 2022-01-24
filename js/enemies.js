@@ -5,7 +5,7 @@ class Enemy {
     this.enemyHeight = this.enemyWidth * 5;
     this.enemyPosX = gameSizeW;
     this.gameSizeH = gameSizeH;
-    this.enemyPosY = 689; // randomEnemy()
+    this.enemyPosY = 630; // randomEnemy()
     this.enemyVelX = 10;
     this.enemyVelY = 2;
   }
