@@ -12,13 +12,13 @@ class Player {
     this.imageInstance.src = "./img/player.png";
 
     this.playerPosX = 50;
-    this.playerPosY = this.gameSizeH - this.playerSizeH - 20;
+    this.playerPosY = this.gameSizeH / 2;
 
-    this.playerBasePos = this.playerPosY;
+    this.playerBasePos = this.gameSizeH / 2;
 
     this.playerVelY = 1;
-    this.playerVelX = 10;
-    this.playerGravity = 0.5;
+    this.playerVelX = 1;
+    // this.playerGravity = 0;
 
     this.keys = keys;
 
@@ -28,64 +28,47 @@ class Player {
     this.setEventListeners();
   }
 
-  draw() {
+  draw(framesCounter) {
+    this.ctx.fillRect(this.playerPosX, this.playerPosY, 100, 100)
     //framesCounter
-    this.ctx.drawImage(
-      this.imageInstance,
-      this.playerPosX,
-      this.playerPosY,
-      this.playerSizeW,
-      this.playerSizeH
-    );
+    // this.ctx.drawImage(
+    //   this.imageInstance,
+    //   this.playerPosX,
+    //   this.playerPosY,
+    //   this.playerSizeW,
+    //   this.playerSizeH
+    // );
     // animate(framesCounter)
-    this.move();
+    if (this.movements.includes('UP') && this.playerPosY > 0) { this.moveUp() }
+    if (this.movements.includes('DOWN') && this.playerPosY < this.gameSizeH - 100) { this.moveDown() }
+    if (this.movements.includes('RIGHT') && this.playerPosX < this.gameSizeW - 150) { this.moveRight() }
+    if (this.movements.includes('LEFT') && this.playerPosX > 10) { this.moveLeft() }
     this.bullets.forEach((bullet) => bullet.draw());
     this.clearBullets();
   }
 
-  // SALTAR
-  move() {
-    if (this.playerPosY < this.playerBasePos) {
-      this.playerPosY += this.playerVelY;
-      this.playerVelY += this.playerGravity;
-      this.playerVelX += this.playerVelX;
-    } else {
-      this.playerPosY = this.playerBasePos;
-      this.playerVelY = 1;
-    }
-  }
 
+  // KEYDOWN
   setEventListeners() {
     document.addEventListener("keydown", (e) => {
       switch (e.keyCode) {
-        case this.keys.TOP:
-          if (this.playerPosY >= this.playerBasePos) {
-            this.jump();
-          }
+        case this.keys.UP:
+          !this.movements.includes("UP") ? this.movements.push("UP") : null
           break;
-        // case this.keys.RIGHT:
-        //   if (this.playerPosX)
-        //   this.moveRight()
-        //   break;
-        // case this.keys.LEFT:
-        //   if (this.playerPosX)
-        //   this.moveLeft()
-        //   break;
-        case this.keys.SPACE:
-          this.shoot();
+        case this.keys.DOWN:
+          !this.movements.includes("DOWN") ? this.movements.push("DOWN") : null
+
           break;
-      }
-    });
-    // KEYDOWN
-    document.addEventListener("keydown", (e) => {
-      switch (e.keyCode) {
         case this.keys.RIGHT:
-          this.movements.push("RIGHT");
-          this.moveRight();
+          !this.movements.includes("RIGHT") ? this.movements.push("RIGHT") : null
+
           break;
         case this.keys.LEFT:
-          this.movements.push("LEFT");
-          this.moveLeft();
+          !this.movements.includes("LEFT") ? this.movements.push("LEFT") : null
+
+          break;
+        case this.keys.SPACE:
+          this.shoot()
           break;
       }
     });
@@ -96,27 +79,32 @@ class Player {
         case this.keys.RIGHT:
           this.movements = [];
           break;
-
         case this.keys.LEFT:
+          this.movements = [];
+          break;
+        case this.keys.UP:
+          this.movements = [];
+          break;
+        case this.keys.DOWN:
           this.movements = [];
           break;
       }
     });
   }
 
-  jump() {
-    this.playerPosY -= 80;
-    this.playerVelY -= 15;
+  moveUp() {
+    this.playerPosY -= 10;
   }
+
+  moveDown() {
+    this.playerPosY += 10;
+  }
+
   moveRight() {
-    this.movements.forEach((elem) => {
-      if (elem.includes("RIGHT")) this.playerPosX += 1;
-    });
+    this.playerPosX += 10;
   }
   moveLeft() {
-    this.movements.forEach((elem) => {
-      if (elem.includes("LEFT")) this.playerPosX -= 1;
-    });
+    this.playerPosX -= 10;
   }
 
   shoot() {
@@ -125,7 +113,6 @@ class Player {
         this.ctx,
         this.playerPosX,
         this.playerPosY,
-        this.playerBasePos,
         this.playerSizeW,
         this.playerSizeH
       )
@@ -134,7 +121,7 @@ class Player {
 
   clearBullets() {
     this.bullets = this.bullets.filter(
-      (bull) => bull.playerPosX <= this.gameSizeW
+      (bull) => bull.bullPosX <= this.gameSizeW
     );
   }
 }

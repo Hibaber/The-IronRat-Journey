@@ -15,7 +15,8 @@ const game = {
   goals: [], // idem
   prizes: [], // idem
   keys: {
-    TOP: 38,
+    UP: 38,
+    DOWN: 40,
     RIGHT: 39,
     LEFT: 37,
     SPACE: 32,
@@ -48,7 +49,8 @@ const game = {
       this.clearAll();
       this.drawAll();
       this.clearEnemies();
-      this.isCollision() ? this.gameOver() : null;
+      this.isCollisionPlayer() ? this.gameOver() : null;
+      this.isCollisionEnemies() ? this.killEnemy() : null;
     }, 1000 / this.FPS);
   },
 
@@ -69,7 +71,7 @@ const game = {
       this.ctx,
       this.playerPosX,
       this.playerPosY,
-      this.bullBasePos,
+
       this.playerSizeW,
       this.playerSizeH
     );
@@ -95,24 +97,46 @@ const game = {
     if (this.framesCounter % 90 === 0) {
       this.enemies.push(new Enemy(this.ctx, this.gameSizeW, this.gameSizeH));
     }
-    // (this.ctx, this.width, this.player.posY0, this.player.height)
+
   },
 
   clearEnemies() {
     this.enemies = this.enemies.filter((enem) => enem.enemyPosX >= 0);
   },
 
-  isCollision() {
+  isCollisionPlayer() {
+
     return this.enemies.some(enem => {
-      return (
-        this.player.playerPosX + this.player.playerSizeW >= enem.enemyPosX &&
-        this.player.playerPosY + this.player.playerSizeH >= enem.enemyPosY &&
-        this.player.playerPosX <= enem.enemyPosX + enem.enemyWidth
-      )
+      return (this.player.playerPosX < enem.enemyPosX + enem.enemyWidth &&
+        this.player.playerPosX + this.player.playerSizeW > enem.enemyPosX &&
+        this.player.playerPosY < enem.enemyPosY + enem.enemyHeight &&
+        this.player.playerPosY + this.player.playerSizeH > enem.enemyPosY)
     })
   },
 
+  isCollisionEnemies() {
+
+    return this.enemies.some(enem => {
+      return (this.bullets.bullPosX < enem.enemyPosX + enem.enemyWidth &&
+        this.bullets.bullPosX + this.bullets.bullW > enem.enemyPosX &&
+        this.bullets.bullPosY < enem.enemyPosY + enem.enemyHeight &&
+        this.bullets.bullPosY + this.bullets.bullH > enem.enemyPosY)
+    })
+  },
+
+
+  killEnemy() {
+
+    this.enemies.forEach(elm => {
+      if (isCollisionEnemies) {
+        return bullets.split(elm, 1)
+      }
+
+
+    })
+  },
   gameOver() {
     clearInterval(this.interval);
   },
 };
+
