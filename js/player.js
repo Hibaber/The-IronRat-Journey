@@ -8,8 +8,8 @@ class Player {
     this.playerSizeH = 100;
     //this.playerImage.frames = 3
     //this.playerImage.framesIndex = 0
-    this.imageInstance = new Image();
-    this.imageInstance.src = "./img/player.png";
+    // this.imageInstance = new Image();
+    // this.imageInstance.src = "./img/player.png";
 
     this.playerPosX = 50;
     this.playerPosY = this.gameSizeH / 2;
@@ -26,6 +26,7 @@ class Player {
     this.movements = [];
 
     this.setEventListeners();
+
   }
 
   draw(framesCounter) {

@@ -1,23 +1,26 @@
 class Enemy {
   constructor(ctx, gameSizeW, gameSizeH) {
     this.ctx = ctx;
-    this.enemyWidth = 50;
-    this.enemyHeight = 50;
+    this.enemyWidth = 100;
+    this.enemyHeight = 100;
     this.enemyPosX = gameSizeW;
     this.gameSizeH = gameSizeH;
     this.enemyPosY = this.randomEnemy();
     this.enemyVelX = 10;
-    this.enemyVelY = 2;
+    // this.enemyVelY = 2;
+    this.imageInstance = new Image();
+    this.imageInstance.src = "./img/enemy1.png"
   }
 
   draw() {
-    this.ctx.fillRect(
+    this.ctx.drawImage(
+      this.imageInstance,
       this.enemyPosX,
       this.enemyPosY,
       this.enemyWidth,
       this.enemyHeight
-    );
-    this.move();
+    )
+    this.move()
   }
 
   move() {
@@ -25,9 +28,11 @@ class Enemy {
   }
 
   randomEnemy() {
-    let random = Math.floor(Math.random() * (this.gameSizeH - this.enemyHeight)); // no se pone el min porque es 0
+    let random = Math.floor(Math.random() * (this.gameSizeH - this.enemyHeight));
     return random
   }
+
+
 
 }
 // generate random para enemigos (min 0, max alto de pantalla - alt del enemigo)

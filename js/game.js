@@ -11,10 +11,10 @@ const game = {
   framesCounter: 0,
   background: undefined,
   player: undefined,
-  score: undefined,
-  enemies: [], // crear un array por cada tipo de enemigo o un único array?
-  goals: [], // idem
-  prizes: [], // idem
+  score: 0,
+  enemies: [],
+  goals: [],
+  numberOfGoalTypes: 8,
   keys: {
     UP: 38,
     DOWN: 40,
@@ -22,6 +22,7 @@ const game = {
     LEFT: 37,
     SPACE: 32,
   },
+
 
   init() {
     this.canvas = document.getElementById("canvas");
@@ -40,18 +41,17 @@ const game = {
   start() {
     this.reset();
     this.interval = setInterval(() => {
-      this.framecounter > 5000
-        ? (this.framesCounter = 0)
-        : this.framesCounter++;
-
+      this.framecounter > 5000 ? (this.framesCounter = 0) : this.framesCounter++
       this.createEnemies();
-      // this.createPrizes()
-      // this.createGoals()
+      this.createGoals()
       this.clearAll();
       this.drawAll();
       this.clearEnemies();
+      this.clearGoals()
       this.isCollisionPlayer() ? this.gameOver() : null;
-      this.isCollisionEnemies() ? this.killEnemy() : null;
+      this.checkEnemyKill()
+      this.checkGoalTaken()
+
     }, 1000 / this.FPS);
   },
 
@@ -75,9 +75,7 @@ const game = {
       this.playerSizeW,
       this.playerSizeH
     );
-    // this.enemies = [];
-    // this.prizes = [];
-    // this.goals = [];
+
   },
 
   drawAll() {
@@ -85,16 +83,38 @@ const game = {
     this.player.draw();
     this.framesCounter;
     this.enemies.forEach((element) => element.draw());
-    // this.prizes.forEach(element => element.draw())
-    // this.goals.forEach(element => element.draw())
+    this.goals.forEach((element) => element.draw())
+
   },
 
   clearAll() {
     this.ctx.clearRect(0, 0, this.gameSizeW, this.gameSizeH);
   },
 
+  createGoals() {
+    if (this.framesCounter % 500 === 0) {
+      const index = Math.floor(Math.random() * (this.numberOfGoalTypes))
+      this.goals.push(new Goal(this.ctx, this.gameSizeW, this.gameSizeH, index));
+    }
+  },
+
+  clearGoals() {
+    this.goals = this.goals.filter((goal) => goal.goalPosX >= 0);
+  },
+
+  checkGoalTaken() {
+    if (this.goals.length > 0) {
+      this.goals.forEach((elm, i) => {
+        if (this.isCollisionPlayerG(elm)) {
+          this.score += 50
+          this.goals.splice(i, 1)
+        }
+      })
+    }
+  },
+
   createEnemies() {
-    if (this.framesCounter % 90 === 0) {
+    if (this.framesCounter % 50 === 0) {
       this.enemies.push(new Enemy(this.ctx, this.gameSizeW, this.gameSizeH));
     }
   },
@@ -103,8 +123,17 @@ const game = {
     this.enemies = this.enemies.filter((enem) => enem.enemyPosX >= 0);
   },
 
-  isCollisionPlayer() {
+  checkEnemyKill() {
+    if (this.enemies.length > 0) {
+      this.enemies.forEach((elm, i) => {
+        if (this.isCollisionEnemies(elm)) {
+          this.enemies.splice(i, 1)
+        }
+      })
+    }
+  },
 
+  isCollisionPlayer() {
     return this.enemies.some(enem => {
       return (this.player.playerPosX < enem.enemyPosX + enem.enemyWidth &&
         this.player.playerPosX + this.player.playerSizeW > enem.enemyPosX &&
@@ -113,27 +142,25 @@ const game = {
     })
   },
 
-  isCollisionEnemies() {
+  isCollisionPlayerG() {
+    return this.goals.some(goal => {
+      return (this.player.playerPosX < goal.goalPosX + goal.goalWidth &&
+        this.player.playerPosX + this.player.playerSizeW > goal.goalPosX &&
+        this.player.playerPosY < goal.goalPosY + goal.goalHeight &&
+        this.player.playerPosY + this.player.playerSizeH > goal.goalPosY)
+    })
+  },
 
-    return this.enemies.some(enem => {
-      return (this.bullets.bullPosX < enem.enemyPosX + enem.enemyWidth &&
-        this.bullets.bullPosX + this.bullets.bullW > enem.enemyPosX &&
-        this.bullets.bullPosY < enem.enemyPosY + enem.enemyHeight &&
-        this.bullets.bullPosY + this.bullets.bullH > enem.enemyPosY)
-      // console.log(this.bullets.bullPosX)
+  isCollisionEnemies(enem) {
+    return this.player.bullets.some(bullet => {
+      return (bullet.bullPosX < enem.enemyPosX + enem.enemyWidth &&
+        bullet.bullPosX + bullet.bullW > enem.enemyPosX &&
+        bullet.bullPosY < enem.enemyPosY + enem.enemyHeight &&
+        bullet.bullPosY + bullet.bullH > enem.enemyPosY)
     })
   },
 
 
-  killEnemy() {
-    this.enemies.forEach(elm => {
-      if (isCollisionEnemies) {
-        return enemies.splice(elm, 1)
-      }
-
-
-    })
-  },
   gameOver() {
     clearInterval(this.interval)
     this.ctx.fillStyle = 'rgba(255, 0, 0, 0.4)'
@@ -143,7 +170,7 @@ const game = {
     this.ctx.fillText('GAME OVER! : (TRY AGAIN!', 300, 440)
     this.ctx.font = 'bold 40px comic sans'
     this.ctx.fillStyle = 'black'
-    this.ctx.fillText(`YOUR FINAL SCORE IS: ${this.score}`, 350, 550)
+    this.ctx.fillText(`YOUR FINAL SCORE IS: ${this.score}`, 350, 550) // poner el valor de los goals para score y quitar length
   },
 };
 
