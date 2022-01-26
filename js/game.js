@@ -11,6 +11,7 @@ const game = {
   framesCounter: 0,
   background: undefined,
   player: undefined,
+  score: undefined,
   enemies: [], // crear un array por cada tipo de enemigo o un único array?
   goals: [], // idem
   prizes: [], // idem
@@ -71,11 +72,10 @@ const game = {
       this.ctx,
       this.playerPosX,
       this.playerPosY,
-
       this.playerSizeW,
       this.playerSizeH
     );
-    this.enemies = [];
+    // this.enemies = [];
     // this.prizes = [];
     // this.goals = [];
   },
@@ -97,7 +97,6 @@ const game = {
     if (this.framesCounter % 90 === 0) {
       this.enemies.push(new Enemy(this.ctx, this.gameSizeW, this.gameSizeH));
     }
-
   },
 
   clearEnemies() {
@@ -121,22 +120,30 @@ const game = {
         this.bullets.bullPosX + this.bullets.bullW > enem.enemyPosX &&
         this.bullets.bullPosY < enem.enemyPosY + enem.enemyHeight &&
         this.bullets.bullPosY + this.bullets.bullH > enem.enemyPosY)
+      // console.log(this.bullets.bullPosX)
     })
   },
 
 
   killEnemy() {
-
     this.enemies.forEach(elm => {
       if (isCollisionEnemies) {
-        return bullets.split(elm, 1)
+        return enemies.splice(elm, 1)
       }
 
 
     })
   },
   gameOver() {
-    clearInterval(this.interval);
+    clearInterval(this.interval)
+    this.ctx.fillStyle = 'rgba(255, 0, 0, 0.4)'
+    this.ctx.fillRect(0, 0, this.gameSizeW, this.gameSizeH)
+    this.ctx.font = 'bold 60px comic sans'
+    this.ctx.fillStyle = 'black'
+    this.ctx.fillText('GAME OVER! : (TRY AGAIN!', 300, 440)
+    this.ctx.font = 'bold 40px comic sans'
+    this.ctx.fillStyle = 'black'
+    this.ctx.fillText(`YOUR FINAL SCORE IS: ${this.score}`, 350, 550)
   },
 };
 

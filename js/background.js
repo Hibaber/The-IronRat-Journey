@@ -21,7 +21,7 @@ class Background {
       this.gameSizeW,
       this.gameSizeH
     );
-    //this.ctx.drawImage(this.imageInstance, this.bckgPosX +this.gameSizeW, this.backgPosY,this.gameSizeW, this.gameSizeH)
+  
     //this.move()
   }
 

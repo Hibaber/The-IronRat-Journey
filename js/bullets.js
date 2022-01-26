@@ -4,8 +4,7 @@ class Bullets {
     this.bullPosX = playerPosX + playerSizeW;
     this.bullPosY = playerPosY + playerSizeH / 2;
     this.bullW = this.bullPosX + 50
-    this.bullH = this.lineWidth
-
+    this.bullH = 7
     this.bullVelX = 30;
 
   }
@@ -26,3 +25,7 @@ class Bullets {
 
   }
 }
+
+
+//cambiar bullH a 7
+
