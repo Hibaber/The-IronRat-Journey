@@ -174,12 +174,16 @@ const game = {
 
     this.ctx.font = 'bold 40px Comic Sans MS'
     this.ctx.fillStyle = 'white'
-    this.ctx.fillText(`Your final score is: ${this.score}`, 535, 360)
+    this.ctx.fillText(`Your final score is: ${this.score}`, 530, 360)
 
     this.ctx.font = 'bold 40px Comic Sans MS'
     this.ctx.fillStyle = 'white'
-    this.ctx.fillText('TRY AGAIN!', 625, 440)
-
+    this.ctx.fillText('RELOAD and try again!', 520, 450)
   },
 };
+//const button = document.querySelector(#button)
+//startGame(){
+  
+
+//}
 

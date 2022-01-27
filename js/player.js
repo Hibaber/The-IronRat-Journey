@@ -5,7 +5,7 @@ class Player {
     this.gameSizeH = gameH;
 
     this.playerSizeW = 175;
-    this.playerSizeH = 175;
+    this.playerSizeH = 150;
 
     this.imageInstance = new Image();
     this.imageInstance.src = "./img/player.png";
@@ -142,3 +142,10 @@ class Player {
     );
   }
 }
+// const button= document.QuerySelector(#button)
+  //startGame(){
+    //button.addEventListener("click",() =>{
+  // this.init()
+
+  //}) 
+  // const startGame= button.on
