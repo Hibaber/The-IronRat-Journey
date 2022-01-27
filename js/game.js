@@ -14,7 +14,8 @@ const game = {
   score: 0,
   enemies: [],
   goals: [],
-  numberOfGoalTypes: 8,
+  numberOfGoalTypes: 9,
+  numberOfEnemyTypes: 2,
   keys: {
     UP: 38,
     DOWN: 40,
@@ -22,7 +23,6 @@ const game = {
     LEFT: 37,
     SPACE: 32,
   },
-
 
   init() {
     this.canvas = document.getElementById("canvas");
@@ -41,7 +41,7 @@ const game = {
   start() {
     this.reset();
     this.interval = setInterval(() => {
-      this.framecounter > 5000 ? (this.framesCounter = 0) : this.framesCounter++
+      this.framesCounter > 5000 ? (this.framesCounter = 0) : this.framesCounter++
       this.createEnemies();
       this.createGoals()
       this.clearAll();
@@ -75,14 +75,13 @@ const game = {
       this.playerSizeW,
       this.playerSizeH
     );
-
   },
 
   drawAll() {
-    this.background.draw();
-    this.player.draw();
-    this.framesCounter;
-    this.enemies.forEach((element) => element.draw());
+    this.background.draw()
+    this.player.draw(this.framesCounter)
+    this.framesCounter
+    this.enemies.forEach((element) => element.draw())
     this.goals.forEach((element) => element.draw())
 
   },
@@ -92,7 +91,7 @@ const game = {
   },
 
   createGoals() {
-    if (this.framesCounter % 500 === 0) {
+    if (this.framesCounter % 250 === 0) {
       const index = Math.floor(Math.random() * (this.numberOfGoalTypes))
       this.goals.push(new Goal(this.ctx, this.gameSizeW, this.gameSizeH, index));
     }
@@ -114,8 +113,9 @@ const game = {
   },
 
   createEnemies() {
-    if (this.framesCounter % 50 === 0) {
-      this.enemies.push(new Enemy(this.ctx, this.gameSizeW, this.gameSizeH));
+    if (this.framesCounter % 30 === 0) {
+      const index = Math.floor(Math.random() * (this.numberOfEnemyTypes))
+      this.enemies.push(new Enemy(this.ctx, this.gameSizeW, this.gameSizeH, index));
     }
   },
 
@@ -160,17 +160,26 @@ const game = {
     })
   },
 
-
   gameOver() {
     clearInterval(this.interval)
     this.ctx.fillStyle = 'rgba(255, 0, 0, 0.4)'
     this.ctx.fillRect(0, 0, this.gameSizeW, this.gameSizeH)
-    this.ctx.font = 'bold 60px comic sans'
-    this.ctx.fillStyle = 'black'
-    this.ctx.fillText('GAME OVER! : (TRY AGAIN!', 300, 440)
-    this.ctx.font = 'bold 40px comic sans'
-    this.ctx.fillStyle = 'black'
-    this.ctx.fillText(`YOUR FINAL SCORE IS: ${this.score}`, 350, 550) // poner el valor de los goals para score y quitar length
+
+    this.ctx.fillStyle = '#c94c4c'
+    this.ctx.fillRect(415, 175, 655, 320)
+
+    this.ctx.font = 'bold 70px Comic Sans MS'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText('GAME OVER!', 510, 270)
+
+    this.ctx.font = 'bold 40px Comic Sans MS'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText(`Your final score is: ${this.score}`, 535, 360)
+
+    this.ctx.font = 'bold 40px Comic Sans MS'
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillText('TRY AGAIN!', 625, 440)
+
   },
 };
 

@@ -1,15 +1,18 @@
 class Enemy {
-  constructor(ctx, gameSizeW, gameSizeH) {
+  constructor(ctx, gameSizeW, gameSizeH, i) {
     this.ctx = ctx;
-    this.enemyWidth = 100;
-    this.enemyHeight = 100;
+    this.enemyWidth = 72;
+    this.enemyHeight = 72;
+
     this.enemyPosX = gameSizeW;
     this.gameSizeH = gameSizeH;
+
     this.enemyPosY = this.randomEnemy();
-    this.enemyVelX = 10;
-    // this.enemyVelY = 2;
+    this.enemyVelX = 8;
+
     this.imageInstance = new Image();
-    this.imageInstance.src = "./img/enemy1.png"
+    this.imageEnemyArr = ["./img/enemy1.png", "./img/enemy2.png"]
+    this.imageInstance.src = this.imageEnemyArr[i]
   }
 
   draw() {
@@ -35,6 +38,5 @@ class Enemy {
 
 
 }
-// generate random para enemigos (min 0, max alto de pantalla - alt del enemigo)
-// cuando se crea el enemigo, la pos Y = función random
+
 

@@ -1,15 +1,17 @@
 class Goal {
     constructor(ctx, gameSizeW, gameSizeH, i) {
         this.ctx = ctx;
-        this.goalWidth = 80;
-        this.goalHeight = 80;
+        this.goalWidth = 95;
+        this.goalHeight = 88;
+
         this.goalPosX = gameSizeW;
         this.gameSizeH = gameSizeH;
+
         this.goalPosY = this.randomGoal();
-        this.goalVelX = 15;
-        // this.goalVelY = 2;
+        this.goalVelX = 12;
+
         this.imageInstance = new Image();
-        this.imagesGoalsArr = ["./img/goal1.png", "./img/goal2.png", "./img/goal3.png", "./img/goal4.png", "./img/goal5.png", "./img/goal6.png", "./img/goal7.png", "./img/goal8.png" ]
+        this.imagesGoalsArr = ["./img/goal1.png", "./img/goal2.png", "./img/goal3.png", "./img/goal4.png", "./img/goal5.png", "./img/goal6.png", "./img/goal7.png", "./img/goal8.png", "./img/goal9.png"]
         this.imageInstance.src = this.imagesGoalsArr[i]
     }
 
@@ -34,5 +36,3 @@ class Goal {
     }
 
 }
-
-//Hacer efecto collision para que desaparezcan una vez el player los ha tocado y sumar

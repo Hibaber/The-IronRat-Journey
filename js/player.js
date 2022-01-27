@@ -4,21 +4,20 @@ class Player {
     this.gameSizeW = gameW;
     this.gameSizeH = gameH;
 
-    this.playerSizeW = 100;
-    this.playerSizeH = 100;
-    //this.playerImage.frames = 3
-    //this.playerImage.framesIndex = 0
-    // this.imageInstance = new Image();
-    // this.imageInstance.src = "./img/player.png";
+    this.playerSizeW = 175;
+    this.playerSizeH = 175;
+
+    this.imageInstance = new Image();
+    this.imageInstance.src = "./img/player.png";
+    this.imageInstance.frames = 4
+    this.imageInstance.framesIndex = 0
 
     this.playerPosX = 50;
     this.playerPosY = this.gameSizeH / 2;
-
     this.playerBasePos = this.gameSizeH / 2;
 
     this.playerVelY = 1;
     this.playerVelX = 1;
-    // this.playerGravity = 0;
 
     this.keys = keys;
 
@@ -30,22 +29,35 @@ class Player {
   }
 
   draw(framesCounter) {
-    this.ctx.fillRect(this.playerPosX, this.playerPosY, 100, 100)
-    //framesCounter
-    // this.ctx.drawImage(
-    //   this.imageInstance,
-    //   this.playerPosX,
-    //   this.playerPosY,
-    //   this.playerSizeW,
-    //   this.playerSizeH
-    // );
-    // animate(framesCounter)
-    if (this.movements.includes('UP') && this.playerPosY > 0) { this.moveUp() }
-    if (this.movements.includes('DOWN') && this.playerPosY < this.gameSizeH - 100) { this.moveDown() }
-    if (this.movements.includes('RIGHT') && this.playerPosX < this.gameSizeW - 150) { this.moveRight() }
-    if (this.movements.includes('LEFT') && this.playerPosX > 10) { this.moveLeft() }
+    this.ctx.drawImage(
+      this.imageInstance,
+      this.imageInstance.framesIndex * (this.imageInstance.width / this.imageInstance.frames),
+      0,
+      this.imageInstance.width / this.imageInstance.frames,
+      this.imageInstance.height,
+      this.playerPosX,
+      this.playerPosY,
+      this.playerSizeW,
+      this.playerSizeH
+    )
+
+
+    this.animate(framesCounter)
+    this.moveUp()
+    this.moveDown()
+    this.moveRight()
+    this.moveLeft()
     this.bullets.forEach((bullet) => bullet.draw());
     this.clearBullets();
+  }
+
+  animate(framesCounter) {
+    if (framesCounter % 5 == 0) {
+      this.imageInstance.framesIndex++;
+    }
+    if (this.imageInstance.framesIndex >= this.imageInstance.frames) {
+      this.imageInstance.framesIndex = 0;
+    }
   }
 
 
@@ -94,18 +106,22 @@ class Player {
   }
 
   moveUp() {
-    this.playerPosY -= 10;
+    if (this.movements.includes('UP') && this.playerPosY > 0)
+      this.playerPosY -= 10;
   }
 
   moveDown() {
-    this.playerPosY += 10;
+    if (this.movements.includes('DOWN') && this.playerPosY < this.gameSizeH - 170)
+      this.playerPosY += 10;
   }
 
   moveRight() {
-    this.playerPosX += 10;
+    if (this.movements.includes('RIGHT') && this.playerPosX < this.gameSizeW - 150)
+      this.playerPosX += 10;
   }
   moveLeft() {
-    this.playerPosX -= 10;
+    if (this.movements.includes('LEFT') && this.playerPosX > 10)
+      this.playerPosX -= 10;
   }
 
   shoot() {
