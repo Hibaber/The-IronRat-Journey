@@ -15,7 +15,7 @@ button {
   border-radius: 20px;
   border: green solid 1px;
   color: black;
-  display: inline-block;
+  display: block;
   float: right;
   margin-right: 220px;
   width: 120px;
