@@ -4,7 +4,12 @@
 }
 
 body {
-  background-image: url('../img/bg.png');
+  margin: 180px auto;
+  background: url('../img/bg.png') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   font-family: "Comic Sans MS";
   font-weight: 50px;
 }
@@ -24,9 +29,11 @@ button {
   padding: 15px;
   font-size: 15px;
 }
+
 button:hover {
   background-color: rgb(161, 250, 110);
 }
+
 #box {
   display: block;
   float: right;
@@ -47,11 +54,13 @@ h1 {
 
   font-size: 30px;
 }
+
 p {
   margin-bottom: 45px;
   font-size: 22px;
   text-align: center;
 }
+
 img {
   width: 380px;
   height: 380px;
