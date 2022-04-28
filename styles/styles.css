@@ -37,7 +37,7 @@ button:hover {
 #box {
   display: block;
   float: right;
-  margin-top: 25px;
+  margin-top: 150px;
   margin-right: 130px;
   border-radius: 50px;
   background-color: aquamarine;
@@ -66,5 +66,5 @@ img {
   height: 380px;
   margin-left: 130px;
   margin-right: 100px;
-  margin-top: 200px;
+  margin-top: 300px;
 }
